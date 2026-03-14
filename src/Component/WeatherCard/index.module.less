@@ -1,9 +1,9 @@
 .weatherCard {
-  margin: 0 auto;
-  margin-top: 46px;
+  margin: 46px auto;
+  width: 97%;
+  border-radius: 24px;
   font-family: 'Noto Sans TC', sans-serif;
   color: var(--text-primary, #2b2140);
-  width: 85%;
 }
 
 .weatherTitle {
@@ -15,33 +15,99 @@
   color: var(--current-weather-color, rgba(108, 64, 181, 1));
   font-size: 70px;
   font-weight: bold;
+  line-height: 1;
 }
+
 .temperatureRange {
+  margin-top: 8px;
   font-size: 16px;
   font-weight: 400;
   color: var(--text-secondary, rgba(102, 102, 102, 1));
 }
 
-.weatherDetails {
+.weatherMeta {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  gap: 16px;
+  margin-top: 12px;
   font-size: 16px;
   color: var(--text-secondary, rgba(102, 102, 102, 1));
+  flex-wrap: wrap;
+}
 
-  .location {
-    font-weight: 700;
-  }
+.location {
+  font-weight: 700;
+  margin-top: 10px;
 }
 
 .weatherIcon {
-  width: 35%;
-  height: 35%;
-  background: url('../../assets/sun.png');
+  width: auto;
+  height: 25%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  top: -10%;
+  top: -8%;
   right: 0;
+
+}
+
+.weatherBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.rightContent {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.formattedTime {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.otherMeta {
+  flex: 0 0 auto;
+}
+@media screen and (max-width: 768px) {
+  .currentTemperature {
+    font-size: 60px;
+  }
+  .weatherIcon {
+    height: 20%;
+  }
+  .rightContent {
+    flex-direction: column;
+    font: 14px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .currentTemperature {
+    font-size: 50px;
+  }
+
+  .rightContent {
+    font: 14px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .currentTemperature {
+    font-size: 40px;
+  }
+
+  .rightContent {
+    flex-direction: column;
+    font: 14px;
+  }
 }

@@ -25,11 +25,13 @@ const SearchHistoryItem = ({
   ] = location.split(',');
   return (
     <li className={styles.searchHistoryItem}>
-      <span className={styles.searchHistoryLocation}>{location}</span>
+      <div className={styles.searchHistoryItemContent}>
+        <span className={styles.searchHistoryLocation}>{location}</span>
 
-      <time className={styles.searchHistoryTime} dateTime={dateTime}>
-        {formattedTime}
-      </time>
+        <time className={styles.searchHistoryTime} dateTime={dateTime}>
+          {formattedTime}
+        </time>
+      </div>
 
       <div className={styles.searchHistoryOperation}>
         <button

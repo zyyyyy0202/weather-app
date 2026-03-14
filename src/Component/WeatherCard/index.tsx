@@ -1,3 +1,5 @@
+import SunIcon from "../../assets/sun.png";
+import CloudIcon from "../../assets/cloud.png";
 import styles from "./index.module.less";
 
 export interface WeatherCardProps {
@@ -38,13 +40,23 @@ function WeatherCard({
     weatherType: weatherType || "--",
   };
 
+  const isCloudy = weatherType?.toLowerCase().includes('cloud');
+
   return (
     <section className={styles.weatherCard} aria-label="Current weather">
-      <div className={styles.weatherIcon} />
-      <div className={styles.header}>
-        <h3 className={styles.weatherTitle}>{title}</h3>
-      </div>
+  <img
+    className={styles.weatherIcon}
+    src={isCloudy ? CloudIcon : SunIcon}
+    alt=""
+    aria-hidden="true"
+  />
 
+  <div className={styles.header}>
+    <h3 className={styles.weatherTitle}>{title}</h3>
+  </div>
+
+  <div className={styles.weatherBody}>
+    <div className={styles.leftContent}>
       <div className={styles.currentTemperature}>
         {safeDisplayWeatherData.temperature}
       </div>
@@ -53,13 +65,16 @@ function WeatherCard({
         <span>{safeDisplayWeatherData.temperatureRange}</span>
       </div>
 
-      <div className={styles.weatherDetails}>
-        <div className={styles.location}>{safeDisplayWeatherData.location}</div>
-        <div>{safeDisplayWeatherData.formattedTime}</div>
-        <div>{safeDisplayWeatherData.humidity}</div>
-        <div>{safeDisplayWeatherData.weatherType}</div>
-      </div>
-    </section>
+      <div className={styles.location}>{safeDisplayWeatherData.location}</div>
+    </div>
+
+    <div className={styles.rightContent}>
+      <div>{safeDisplayWeatherData.weatherType}</div>
+      <div>{`Humidity: ${safeDisplayWeatherData.humidity}`}</div>
+      <div className={styles.formattedTime}>{safeDisplayWeatherData.formattedTime}</div>
+    </div>
+  </div>
+</section>
   );
 }
 

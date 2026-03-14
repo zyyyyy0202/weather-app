@@ -1,17 +1,18 @@
+import dayjs from "dayjs";
 import type { WeatherDataVO, WeatherResponse } from "../interface/WeatherInterface";
 
 const KEY = "d52b2cc7b060c07b73fb9177207b6be0";
 const WEATHER_HISTORY_KEY = "weatherHistory";
 const WEATHER_HISTORY_UPDATED_EVENT = "weather-history-updated";
 
-export const currentMapperWrapper = async (response: WeatherResponse, queryCity: string) => {
+export const currentMapperWrapper = async (response: WeatherResponse) => {
   return {
     id: `${response.id}-${new Date()}`,
     temperature: response.main.temp,
-    location: queryCity,
+    location: `${response.name}, ${response.sys.country}`,
     lowestTemperature: response.main.temp_min,
     highestTemperature: response.main.temp_max,
-    formattedTime: new Date().toLocaleString(),
+    formattedTime: dayjs().format("YYYY-MM-DD HH:mm a"),
     humidity: response.main.humidity,
     weatherType: response.weather[0].main,
   }
@@ -35,7 +36,7 @@ export const getCurrentWeather: (city: string, country: string) => Promise<Weath
     throw new Error(data?.message || "Failed to fetch weather");
   }
 
-  return currentMapperWrapper(data as WeatherResponse, queryCity);
+  return currentMapperWrapper(data as WeatherResponse);
 }
 
 /**
