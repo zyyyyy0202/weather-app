@@ -20,13 +20,13 @@
   flex-direction: column;
   padding: 0 22px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--field-bg, rgba(255, 255, 255, 0.3));
   height: 60px;
 }
 
 .searchLabel {
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--field-placeholder, rgba(0, 0, 0, 0.4));
   margin-top: 3px;
 }
 
@@ -36,12 +36,12 @@
   background: none;
   border: none;
   outline: none;
-  color: #2b2140;
+  color: var(--field-text, #2b2140);
   font-size: 16px;
   flex: 1;
 
   &::placeholder {
-    color: rgba(0, 0, 0, 0.4);
+    color: var(--field-placeholder, rgba(0, 0, 0, 0.4));
   }
 
   &:disabled {
@@ -92,7 +92,7 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: rgba(255, 255, 255, 0.35);
-  color: #2b2140;
+  color: var(--field-text, #2b2140);
   cursor: pointer;
   transition: background 0.2s ease, opacity 0.2s ease;
 

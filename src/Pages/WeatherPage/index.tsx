@@ -2,12 +2,14 @@ import { useState } from "react";
 import SearchForm from "../../Component/SearchForm";
 import WeatherCard from "../../Component/WeatherCard";
 import SearchHistory from "../../Component/SearchHistory";
+import Switch from "../../Component/Switch";
 import styles from "./index.module.less";
 
 function WeatherPage() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleSearch = async () => {
     const trimmedCity = city.trim();
@@ -30,8 +32,18 @@ function WeatherPage() {
   };
 
   return (
-    <div className={styles.weatherPage}>
+    <div
+      className={`${styles.weatherPage} ${
+        isDarkMode ? styles.weatherPageDark : styles.weatherPageLight
+      }`}
+    >
       <div className={styles.weatherPageContainer}>
+        <div className={styles.weatherPageToolbar}>
+          <span className={styles.themeLabel}>
+            {isDarkMode ? "Dark Mode" : "Light Mode"}
+          </span>
+          <Switch checked={isDarkMode} onChange={setIsDarkMode} />
+        </div>
         <SearchForm
           city={city}
           country={country}
