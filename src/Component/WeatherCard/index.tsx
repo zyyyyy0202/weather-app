@@ -1,9 +1,7 @@
-import { Spin } from "antd";
 import styles from "./index.module.less";
 
 export interface WeatherCardProps {
   temperature?: number;
-  loading?: boolean;
   location?: string;
   lowestTemperature?: number;
   highestTemperature?: number;
@@ -15,7 +13,6 @@ export interface WeatherCardProps {
 
 function WeatherCard({
   temperature,
-  loading = false,
   location,
   lowestTemperature,
   highestTemperature,
@@ -26,9 +23,9 @@ function WeatherCard({
 }: WeatherCardProps) {
 
   /*
-  * Normalize weather data into display-friendly values,
-  * so the UI can safely handle empty or undefined fields.
-  */
+   * Normalize weather data into display-friendly values,
+   * so the UI can safely handle empty or undefined fields.
+   */
   const safeDisplayWeatherData = {
     temperature: temperature != null ? `${temperature}°` : "--",
     location: location || "--",
@@ -43,29 +40,25 @@ function WeatherCard({
 
   return (
     <section className={styles.weatherCard} aria-label="Current weather">
-      <Spin spinning={loading} delay={200}>
-        <div className={styles.weatherIcon} />
-        <div className={styles.header}>
-          <h3 className={styles.weatherTitle}>{title}</h3>
-        </div>
+      <div className={styles.weatherIcon} />
+      <div className={styles.header}>
+        <h3 className={styles.weatherTitle}>{title}</h3>
+      </div>
 
-        <div className={styles.currentTemperature}>
-          {safeDisplayWeatherData.temperature}
-        </div>
+      <div className={styles.currentTemperature}>
+        {safeDisplayWeatherData.temperature}
+      </div>
 
-        <div className={styles.temperatureRange}>
-          <span>
-            {safeDisplayWeatherData.temperatureRange}
-          </span>
-        </div>
+      <div className={styles.temperatureRange}>
+        <span>{safeDisplayWeatherData.temperatureRange}</span>
+      </div>
 
-        <div className={styles.weatherDetails}>
-          <div className={styles.location}>{safeDisplayWeatherData.location}</div>
-          <div>{safeDisplayWeatherData.formattedTime}</div>
-          <div>{safeDisplayWeatherData.humidity}</div>
-          <div>{safeDisplayWeatherData.weatherType}</div>
-        </div>
-      </Spin>
+      <div className={styles.weatherDetails}>
+        <div className={styles.location}>{safeDisplayWeatherData.location}</div>
+        <div>{safeDisplayWeatherData.formattedTime}</div>
+        <div>{safeDisplayWeatherData.humidity}</div>
+        <div>{safeDisplayWeatherData.weatherType}</div>
+      </div>
     </section>
   );
 }
