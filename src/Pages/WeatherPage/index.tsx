@@ -17,6 +17,7 @@ function WeatherPage() {
     handleDelete,
     loading,
     weatherHistoryList,
+    isInitialized,
   } = useWeatherData();
 
   return (
@@ -39,19 +40,21 @@ function WeatherPage() {
         <div className={`${styles.errorMessage} ${error ? styles.active : ""}`}>{error}</div>
         <div className={styles.weatherInfoContainer}>
           <WeatherCard
+            loading={loading}
             title={`Today's Weather`}
-            temperature={weatherData?.temperature || 0}
+            temperature={weatherData?.temperature}
             location={weatherData?.location || ""}
-            lowestTemperature={weatherData?.lowestTemperature || 0}
-            highestTemperature={weatherData?.highestTemperature || 0}
-            formattedTime={weatherData?.formattedTime || ""}
-            humidity={weatherData?.humidity || 0}
-            weatherType={weatherData?.weatherType || ""}
+            lowestTemperature={weatherData?.lowestTemperature}
+            highestTemperature={weatherData?.highestTemperature}
+            formattedTime={weatherData?.formattedTime}
+            humidity={weatherData?.humidity}
+            weatherType={weatherData?.weatherType}
           />
           <SearchHistory
             weatherHistoryList={weatherHistoryList}
             onDelete={handleDelete}
             onSearch={handleSearch}
+            isInitialized={isInitialized}
           />
         </div>
       </div>

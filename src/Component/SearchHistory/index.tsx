@@ -1,4 +1,5 @@
 import type { WeatherDataVO } from "../../interface/WeatherInterface";
+import emptyIcon from "../../assets/emptyIcon.png";
 import styles from "./index.module.less";
 
 interface SearchHistoryItemProps {
@@ -7,7 +8,7 @@ interface SearchHistoryItemProps {
   formattedTime: string;
   dateTime: string;
   onDelete: (id: string) => void | Promise<void>;
-  onSearch: (city: string, country: string) => void | Promise<void>;
+  onSearch: (city: string, country: string, skipSaveHistory?: boolean) => void | Promise<void>;
 }
 
 const SearchHistoryItem = ({
@@ -35,7 +36,7 @@ const SearchHistoryItem = ({
           type="button"
           className={styles.searchHistorySearchButton}
           aria-label={`Search weather for ${location}`}
-          onClick={() => onSearch(city.trim(), country.trim())}
+          onClick={() => onSearch(city.trim(), country.trim(), true)}
         />
         <button
           type="button"
@@ -51,11 +52,13 @@ const SearchHistoryItem = ({
 interface SearchHistoryProps {
   weatherHistoryList: WeatherDataVO[];
   onDelete: (id: string) => void | Promise<void>;
-  onSearch: (city: string, country: string) => void | Promise<void>;
+  onSearch: (city: string, country: string, skipSaveHistory?: boolean) => void | Promise<void>;
+  isInitialized: boolean;
 }
 
-export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch }: SearchHistoryProps) => {
- 
+export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch, isInitialized }: SearchHistoryProps) => {
+  if (!isInitialized) return null;
+  
   const hasHistory = Array.isArray(weatherHistoryList) && weatherHistoryList.length > 0;
 
   return (
@@ -80,7 +83,10 @@ export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch }: Search
               onSearch={onSearch}
             />
           )) : (
-            <li className={styles.searchHistoryEmpty}>No search history</li>
+            <li className={styles.searchHistoryEmpty}>
+              <img src={emptyIcon} alt="No search history" />
+              No search history
+            </li>
           )}
         </ul>
       </div>

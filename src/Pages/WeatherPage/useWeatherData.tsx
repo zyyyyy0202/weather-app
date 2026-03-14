@@ -12,6 +12,7 @@ export const useWeatherData = () => {
   const [weatherData, setWeatherData] = useState<WeatherDataVO | null>(null);
   const [weatherHistoryList, setWeatherHistoryList] = useState<WeatherDataVO[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const fetchWeatherHistory = () => {
     const history = getWeatherHistory();
@@ -33,9 +34,9 @@ export const useWeatherData = () => {
     setError(null);
 
     try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await getCurrentWeather(trimmedCity, trimmedCountry);
       setWeatherData(result);
-
       if (!skipSaveHistory) {
         addWeatherHistory(result);
         fetchWeatherHistory();
@@ -53,14 +54,22 @@ export const useWeatherData = () => {
   };
 
   useEffect(() => {
-
-    const history = fetchWeatherHistory();
+    /*
+     * Initialize the weather data by fetching the latest search history
+     * and performing a search for the latest location.
+     * if there is no latest location, then perform a search for Johor Bahru, Malaysia.
+     */
+    function init() {
+          const history = fetchWeatherHistory();
     const latestLocation = history[0]?.location;
 
     const [city = "Johor Bahru", country = "Malaysia"] =
       latestLocation?.split(",") ?? [];
 
     handleSearch(city, country, true);
+    setIsInitialized(true);
+    }
+    init();
   }, []);
 
   return {
@@ -70,6 +79,7 @@ export const useWeatherData = () => {
     weatherHistoryList,
     handleSearch,
     handleDelete,
+    isInitialized,
   };
 };
 

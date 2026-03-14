@@ -25,6 +25,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  min-height: 300px;
 }
 
 .searchHistoryItem {
@@ -61,15 +62,20 @@
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 }
 
 .searchHistorySearchButton {
   .operationButton;
-  background-image: url("../../assets/smallSearch.png");
+  background-image: url("../../assets/smallSearchIcon.png");
 }
 
 .searchHistoryDeleteButton {
@@ -77,3 +83,14 @@
   background-image: url("../../assets/deleteIcon.png");
 }
 
+.searchHistoryEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  img {
+    width: 20%;
+    margin-bottom: 20px;
+  }
+}
