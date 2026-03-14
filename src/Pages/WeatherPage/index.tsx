@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SearchForm from "../../Component/SearchForm";
 import WeatherCard from "../../Component/WeatherCard";
+import SearchHistory from "../../Component/SearchHistory";
 import styles from "./index.module.less";
 
 function WeatherPage() {
@@ -52,6 +53,7 @@ function WeatherPage() {
             humidity={70}
             weatherType={'Clouds'}
           />
+          <SearchHistory />
         </div>
       </div>
     </div>
