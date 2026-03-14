@@ -1,6 +1,6 @@
 import styles from "./index.module.less";
 
-interface WeatherCardProps {
+export interface WeatherCardProps {
   temperature: number;
   location: string;
   lowestTemperature: number;

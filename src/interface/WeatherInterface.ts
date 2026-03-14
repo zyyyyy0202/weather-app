@@ -1,4 +1,5 @@
 export interface WeatherDataVO {
+  id: string;
   temperature: number;
   location: string;
   lowestTemperature: number;
@@ -12,6 +13,7 @@ export interface WeatherResponse {
   name: string;
   dt: number;
   timezone: number;
+  id: number;
   weather: Array<{
     main: string;
     description: string;

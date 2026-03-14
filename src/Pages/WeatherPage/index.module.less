@@ -1,10 +1,12 @@
 .weatherPage {
-  background: var(--theme-background-image);
-  height: 100vh;
-  width: 100vw;
-  padding: 0 18px;
+  background: var(--theme-background-image) center/cover no-repeat;
+  padding: 24px 18px;
   overflow-y: auto;
   transition: background-color 0.25s ease, filter 0.25s ease;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .weatherPageContainer {
@@ -39,6 +41,7 @@
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 14px;
   font-weight: 600;
+  min-height: 20px;
 }
 
 .weatherInfoContainer {

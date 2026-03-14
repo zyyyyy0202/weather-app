@@ -1,30 +1,27 @@
+import type { WeatherDataVO } from "../../interface/WeatherInterface";
 import styles from "./index.module.less";
 
-interface SearchHistoryRecord {
-  id: number;
-  location: string;
-  formattedTime: string;
-  dateTime: string;
-}
-
-const MOCK_HISTORY: SearchHistoryRecord[] = Array.from({ length: 5 }, (_, index) => ({
-  id: index + 1,
-  location: "Johor, MY",
-  formattedTime: "01-09-2022 09:41am",
-  dateTime: "2022-09-01T09:41:00",
-}));
-
 interface SearchHistoryItemProps {
+  id: string;
   location: string;
   formattedTime: string;
   dateTime: string;
+  onDelete: (id: string) => void | Promise<void>;
+  onSearch: (city: string, country: string) => void | Promise<void>;
 }
 
 const SearchHistoryItem = ({
   location,
   formattedTime,
   dateTime,
+  onDelete,
+  onSearch,
+  id,
 }: SearchHistoryItemProps) => {
+  const [
+    city = '',
+    country = '',
+  ] = location.split(',');
   return (
     <li className={styles.searchHistoryItem}>
       <span className={styles.searchHistoryLocation}>{location}</span>
@@ -38,18 +35,29 @@ const SearchHistoryItem = ({
           type="button"
           className={styles.searchHistorySearchButton}
           aria-label={`Search weather for ${location}`}
+          onClick={() => onSearch(city.trim(), country.trim())}
         />
         <button
           type="button"
           className={styles.searchHistoryDeleteButton}
           aria-label={`Delete search history for ${location}`}
+          onClick={() => onDelete(id)}
         />
       </div>
     </li>
   );
 };
 
-export const SearchHistory = () => {
+interface SearchHistoryProps {
+  weatherHistoryList: WeatherDataVO[];
+  onDelete: (id: string) => void | Promise<void>;
+  onSearch: (city: string, country: string) => void | Promise<void>;
+}
+
+export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch }: SearchHistoryProps) => {
+ 
+  const hasHistory = Array.isArray(weatherHistoryList) && weatherHistoryList.length > 0;
+
   return (
     <section
       className={styles.searchHistoryContainer}
@@ -61,14 +69,19 @@ export const SearchHistory = () => {
         </h2>
 
         <ul className={styles.searchHistoryListContainer}>
-          {MOCK_HISTORY.map((item) => (
+          {hasHistory ? weatherHistoryList?.map((item) => (
             <SearchHistoryItem
               key={item.id}
+              id={item.id}
               location={item.location}
               formattedTime={item.formattedTime}
-              dateTime={item.dateTime}
+              dateTime={item.formattedTime}
+              onDelete={onDelete}
+              onSearch={onSearch}
             />
-          ))}
+          )) : (
+            <li className={styles.searchHistoryEmpty}>No search history</li>
+          )}
         </ul>
       </div>
     </section>

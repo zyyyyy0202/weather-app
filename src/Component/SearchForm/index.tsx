@@ -1,37 +1,40 @@
+import { useState } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import styles from './index.module.less';
 
 interface SearchFormProps {
-  city: string;
-  country: string;
   loading?: boolean;
-  onCityChange: (value: string) => void;
-  onCountryChange: (value: string) => void;
-  onSearch: () => void;
-  onClear: () => void;
+  onSearch: (city: string, country: string) => void;
 }
 
 function SearchForm({
-  city,
-  country,
   loading = false,
-  onCityChange,
-  onCountryChange,
   onSearch,
-  onClear,
 }: SearchFormProps) {
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onCityChange(event.target.value);
+    setCity(event.target.value);
   };
 
   const handleCountryChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onCountryChange(event.target.value);
+    setCountry(event.target.value);
   };
+
+  const handleSearch = () => {
+    onSearch(city, country);
+  }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !loading) {
-      onSearch();
+      handleSearch();
     }
+  };
+
+  const handleClear = () => {
+    setCity("");
+    setCountry("");
   };
 
   return (
@@ -73,7 +76,7 @@ function SearchForm({
         <button
           className={styles.searchButton}
           type="button"
-          onClick={onSearch}
+          onClick={handleSearch}
           disabled={loading}
           aria-label="Search"
           title="Search"
@@ -84,7 +87,7 @@ function SearchForm({
         <button
           className={styles.clearButton}
           type="button"
-          onClick={onClear}
+          onClick={handleClear}
           disabled={loading}
         >
           Clear
