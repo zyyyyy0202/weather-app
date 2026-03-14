@@ -1,6 +1,7 @@
 import { useState } from "react";
-import styles from "./index.module.less";
 import SearchForm from "../../Component/SearchForm";
+import WeatherCard from "../../Component/WeatherCard";
+import styles from "./index.module.less";
 
 function WeatherPage() {
   const [city, setCity] = useState("");
@@ -30,7 +31,6 @@ function WeatherPage() {
   return (
     <div className={styles.weatherPage}>
       <div className={styles.weatherPageContainer}>
-        <h1>Today's Weather</h1>
         <SearchForm
           city={city}
           country={country}
@@ -40,6 +40,19 @@ function WeatherPage() {
           onSearch={handleSearch}
           onClear={handleClear}
         />
+        <div className={styles.weatherInfoContainer}>
+          <div className={styles.weatherIcon}></div>
+          <WeatherCard
+            title={`Today's Weather`}
+            temperature={26}
+            location={`Johor, MY`}
+            lowestTemperature={20}
+            highestTemperature={30}
+            formattedTime={'01-09-2022 09:41am'}
+            humidity={70}
+            weatherType={'Clouds'}
+          />
+        </div>
       </div>
     </div>
   );
