@@ -23,6 +23,7 @@ function WeatherCard({
 }: WeatherCardProps) {
   return (
     <section className={styles.weatherCard} aria-label="Current weather">
+      <div className={styles.weatherIcon}></div>
       <div className={styles.header}>
         <h3 className={styles.weatherTitle}>{title}</h3>
       </div>

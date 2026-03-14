@@ -1,13 +1,14 @@
 .weatherCard {
-  margin: 0 70px;
+  margin: 0 auto;
   margin-top: 46px;
   font-family: 'Noto Sans TC', sans-serif;
   color: var(--text-primary, #2b2140);
+  width: 85%;
 }
 
 .weatherTitle {
   font-size: 16px;
-  color: var(--text-primary, #2b2140);
+  color: var(--text-primary, #23183a);
 }
 
 .currentTemperature {
@@ -31,4 +32,16 @@
   .location {
     font-weight: 700;
   }
+}
+
+.weatherIcon {
+  width: 35%;
+  height: 35%;
+  background: url('../../assets/sun.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: -10%;
+  right: 0;
 }
