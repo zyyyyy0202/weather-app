@@ -1,6 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { WeatherDataVO } from "../../interface/WeatherInterface";
-import { getCurrentWeather, addWeatherHistory, getWeatherHistory, deleteWeatherHistory } from "../../services/weather";
+import {
+  getCurrentWeather,
+  addWeatherHistory,
+  getWeatherHistory,
+  deleteWeatherHistory,
+} from "../../services/weather";
 
 export const useWeatherData = () => {
   const [loading, setLoading] = useState(false);
@@ -8,17 +13,21 @@ export const useWeatherData = () => {
   const [weatherHistoryList, setWeatherHistoryList] = useState<WeatherDataVO[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchWeatherHistory = async () => {
-    const history = await getWeatherHistory();
+  const fetchWeatherHistory = () => {
+    const history = getWeatherHistory();
     setWeatherHistoryList(history);
-  }
+    return history;
+  };
 
-  const handleSearch = async (city: string, country: string) => {
+  const handleSearch = async (
+    city: string,
+    country: string,
+    skipSaveHistory?: boolean,
+  ) => {
     const trimmedCity = city.trim();
     const trimmedCountry = country.trim();
-    if (!trimmedCity) {
-      return;
-    }
+
+    if (!trimmedCity) return;
 
     setLoading(true);
     setError(null);
@@ -26,15 +35,14 @@ export const useWeatherData = () => {
     try {
       const result = await getCurrentWeather(trimmedCity, trimmedCountry);
       setWeatherData(result);
-      addWeatherHistory(result);
-      fetchWeatherHistory();
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occurred.");
+
+      if (!skipSaveHistory) {
+        addWeatherHistory(result);
+        fetchWeatherHistory();
       }
-    } finally { 
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unknown error occurred.");
+    } finally {
       setLoading(false);
     }
   };
@@ -42,10 +50,17 @@ export const useWeatherData = () => {
   const handleDelete = async (id: string) => {
     await deleteWeatherHistory(id);
     fetchWeatherHistory();
-  }
+  };
 
   useEffect(() => {
-    fetchWeatherHistory();
+
+    const history = fetchWeatherHistory();
+    const latestLocation = history[0]?.location;
+
+    const [city = "Johor Bahru", country = "Malaysia"] =
+      latestLocation?.split(",") ?? [];
+
+    handleSearch(city, country, true);
   }, []);
 
   return {
@@ -55,7 +70,7 @@ export const useWeatherData = () => {
     weatherHistoryList,
     handleSearch,
     handleDelete,
-  }
-}
+  };
+};
 
 export default useWeatherData;
