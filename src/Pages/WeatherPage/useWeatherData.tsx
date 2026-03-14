@@ -28,7 +28,11 @@ export const useWeatherData = () => {
     const trimmedCity = city.trim();
     const trimmedCountry = country.trim();
 
-    if (!trimmedCity) return;
+    if (!trimmedCity && !trimmedCountry) {
+      setError("Please enter a city or country.");
+      return;
+
+    }
 
     setLoading(true);
     setError(null);

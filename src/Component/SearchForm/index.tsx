@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from 'antd';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import styles from './index.module.less';
 
@@ -73,25 +74,23 @@ function SearchForm({
         </div>
       </div>
       <div className={styles.actionGroup}>
-        <button
+        <Button
           className={styles.searchButton}
-          type="button"
           onClick={handleSearch}
           disabled={loading}
           aria-label="Search"
           title="Search"
         >
-          <span className={styles.searchIcon} aria-hidden="true" />
-        </button>
+          {loading ? <span className={styles.buttonSpinner} /> : <span className={styles.searchIcon} aria-hidden="true" />}
+        </Button>
 
-        <button
+        <Button
           className={styles.clearButton}
-          type="button"
           onClick={handleClear}
-          disabled={loading}
+          loading={loading}
         >
           Clear
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -18,7 +18,12 @@ export const currentMapperWrapper = async (response: WeatherResponse, queryCity:
 }
 
 export const getCurrentWeather: (city: string, country: string) => Promise<WeatherDataVO> = async (city: string, country: string) => {
-  const queryCity = `${city}${country ? `,${country}`: ''}`;
+  let queryCity = '';
+  if(city && country) {
+    queryCity = `${city},${country}`;
+  } else {
+    queryCity = city || country;
+  }
 
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${queryCity}&units=metric&APPID=${KEY}`

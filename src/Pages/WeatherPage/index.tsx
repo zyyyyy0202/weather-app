@@ -40,7 +40,6 @@ function WeatherPage() {
         <div className={`${styles.errorMessage} ${error ? styles.active : ""}`}>{error}</div>
         <div className={styles.weatherInfoContainer}>
           <WeatherCard
-            loading={loading}
             title={`Today's Weather`}
             temperature={weatherData?.temperature}
             location={weatherData?.location || ""}
