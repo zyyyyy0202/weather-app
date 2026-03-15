@@ -1,3 +1,4 @@
+import { Button, Popconfirm } from "antd";
 import type { WeatherDataVO } from "../../interface/WeatherInterface";
 import emptyIcon from "../../assets/emptyIcon.png";
 import styles from "./index.module.less";
@@ -40,12 +41,19 @@ const SearchHistoryItem = ({
           aria-label={`Search weather for ${location}`}
           onClick={() => onSearch(city.trim(), country.trim(), true)}
         />
-        <button
-          type="button"
-          className={styles.searchHistoryDeleteButton}
-          aria-label={`Delete search history for ${location}`}
-          onClick={() => onDelete(id)}
-        />
+        <Popconfirm
+          title="Delete this search history?"
+          okText="Yes"
+          okType="danger"
+          onConfirm={() => onDelete(id)}
+          
+        >
+          <button
+            type="button"
+            className={styles.searchHistoryDeleteButton}
+            aria-label={`Delete search history for ${location}`}
+          />
+        </Popconfirm>
       </div>
     </li>
   );
