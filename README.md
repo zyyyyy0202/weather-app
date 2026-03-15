@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# Today's Weather
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Screenshots
 
-Currently, two official plugins are available:
+![alt text](image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![alt text](image-1.png)
 
-## React Compiler
+![alt text](image-2.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![alt text](image-3.png)
 
-## Expanding the ESLint configuration
+A weather app built with React + TypeScript. It supports searching current weather by city/country, viewing local search history, deleting history records, and switching between light/dark themes.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Search current weather by `City` / `Country`
+- Display weather card information:
+  - current temperature
+  - high / low temperature
+  - humidity
+  - weather type
+  - query time
+  - city + country code
+- Persist search history locally (`localStorage`)
+- Re-search directly from history
+- Delete history records (with confirmation dialog)
+- Theme switch (Light / Dark)
+- Error feedback (empty input, API errors, etc.)
+- Responsive layout adaptation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React 19
+- TypeScript
+- Vite
+- Less + CSS Modules
+- OpenWeather API
+
+## Project Structure
+
+```text
+src/
+  Component/
+    SearchForm/       # Search inputs and action buttons
+    WeatherCard/      # Current weather display card
+    SearchHistory/    # History list + delete + re-search
+    Switch/           # Theme toggle switch
+  Pages/
+    WeatherPage/
+      index.tsx       # Page composition
+      useWeatherData.tsx  # Page data logic (search/history/init)
+      token.module.less    # Theme tokens
+      index.module.less    # Page layout styles
+  services/
+    weather.ts        # API requests + history storage access
+  interface/
+    WeatherInterface.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file in the project root:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+VITE_OPEN_WEATHER_API_KEY=your_openweather_api_key
+```
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the dev server:
+
+```bash
+npm run dev
 ```
