@@ -20,30 +20,30 @@
   flex-direction: column;
   padding: 0 22px;
   border-radius: 20px;
-  background: var(--field-bg, rgba(255, 255, 255, 0.3));
+  background: var(--color-field-background, rgba(255, 255, 255, 0.3));
   height: 60px;
-  width: 40%;
+  width: 48%;
   box-sizing: border-box;
 }
 
 .searchLabel {
   font-size: 12px;
-  color: var(--field-placeholder, rgba(0, 0, 0, 0.4));
+  color: var(--color-field-placeholder, rgba(0, 0, 0, 0.4));
   margin-top: 3px;
 }
 
 .searchInput {
-  width: 50%;
-  min-width: 220px;
+  width: 100%;
+  min-width: 0;
   background: none;
   border: none;
   outline: none;
-  color: var(--field-text, #2b2140);
+  color: var(--color-field-text, #2b2140);
   font-size: 16px;
   flex: 1;
 
   &::placeholder {
-    color: var(--field-placeholder, rgba(0, 0, 0, 0.4));
+    color: var(--color-field-placeholder, rgba(0, 0, 0, 0.4));
   }
 
   &:disabled {
@@ -94,7 +94,7 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: rgba(255, 255, 255, 0.35);
-  color: var(--field-text, #2b2140);
+  color: var(--color-field-text, #2b2140);
   cursor: pointer;
   transition: background 0.2s ease, opacity 0.2s ease;
 

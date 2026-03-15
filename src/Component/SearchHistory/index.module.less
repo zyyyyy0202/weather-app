@@ -1,18 +1,17 @@
 .searchHistoryContainer {
   width: 100%;
-  background-color: var(--search-history-bg);
+  background-color: var(--color-surface-history);
   margin: 26px auto;
   border-radius: 24px;
-  height: 548px;
+  min-height: 548px;
   font-family: 'Noto Sans TC', sans-serif;
-  color: var(--text-primary, #2b2140);
-  height: fit-content;
+  color: var(--color-text-primary, #2b2140);
   backdrop-filter: blur(20px);
 }
 
 .searchHistoryWrapper {
   padding: 24px;
-  background-color: var(--search-history-bg);
+  background-color: var(--color-surface-history);
   border-radius: 24px;
 }
 
@@ -33,7 +32,7 @@
 
 .searchHistoryItem {
   width: 100%;
-  background-color: var(--history-row-bg, rgba(255, 255, 255, 0.4));
+  background-color: var(--color-surface-history-row, rgba(255, 255, 255, 0.4));
   display: flex;
   height: 60px;
   border-radius: 16px;
@@ -43,14 +42,14 @@
 }
 
 .searchHistoryLocation {
-    font-size: 16px;
-  }
+  font-size: 16px;
+}
 
 .searchHistoryTime {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
 
 .searchHistoryItemContent {
   display: flex;
@@ -111,21 +110,19 @@
   .searchHistoryContainer {
     width: 100%;
   }
+
   .searchHistoryItemContent {
     flex-direction: column;
   }
 
   .searchHistoryLocation {
     font-size: 15px;
-        min-width: 0;
-
+    min-width: 0;
     overflow: hidden;
-
     text-overflow: ellipsis;
-
     white-space: nowrap;
     margin-bottom: 2px;
-      }
+  }
 
   .searchHistoryItem {
     padding: 0 11px;

@@ -1,6 +1,8 @@
+@import "./token.module.less";
+
 .weatherPage {
-  background: var(--theme-background-image) center no-repeat;
-  background-size: 100% 100%;
+  background: var(--image-page-background) center no-repeat;
+  background-size: cover;
   overflow-y: auto;
   transition: background-color 0.25s ease, filter 0.25s ease;
   scrollbar-width: none;
@@ -15,7 +17,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 24px;
+  padding: 20px 24px;
   max-width: 800px;
 }
 
@@ -29,20 +31,10 @@
 }
 
 .themeLabel {
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 14px;
   font-weight: 600;
-}
-
-.errorMessage {
-  margin-top: 12px;
-  align-self: flex-start;
-  color: #dc2626;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  min-height: 20px;
 }
 
 .weatherInfoContainer {
@@ -50,10 +42,9 @@
   width: 100%;
   max-width: 800px;
   padding: 24px;
-  border-radius: 20px;
   border-radius: 40px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
+  background: var(--color-surface-panel);
+  border: 1px solid var(--color-surface-panel-border);
   position: relative;
   box-sizing: border-box;
   backdrop-filter: blur(20px);
@@ -62,11 +53,14 @@
 .errorMessage {
   display: inline-block;
   margin-top: 12px;
+  min-height: 32px;
   padding: 8px 12px;
   border-radius: 10px;
   background: rgba(255, 230, 234, 0.75);
   color: #c62828;
+  font-family: 'Noto Sans TC', sans-serif;
   font-size: 14px;
+  font-weight: 600;
   width: 100%;
   transition: opacity 0.2s ease;
   opacity: 0;
@@ -78,38 +72,11 @@
 
 @media screen and (max-width: 390px) {
   .weatherPageContainer {
-    padding: 0 12px;
+    padding: 12px;
   }
 
   .weatherInfoContainer {
     padding: 20px;
+    margin-top: 90px;
   }
-}
-
-.weatherPageLight {
-  --panel-bg: rgba(255, 255, 255, 0.2);
-  --panel-border: rgba(255, 255, 255, 0.5);
-  --text-primary: rgba(43, 33, 64, 1);
-  --text-secondary: rgb(14, 8, 8);
-  --field-bg: rgba(255, 255, 255, 0.3);
-  --field-text: #2b2140;
-  --field-placeholder: rgba(0, 0, 0, 0.4);
-  --history-row-bg: rgba(255, 255, 255, 0.4);
-  --theme-background-image: url('../../assets/bg-light.png');
-  --search-history-bg: rgba(255, 255, 255, 0.2);
-  --current-weather-color: rgba(108, 64, 181, 1);
-}
-
-.weatherPageDark {
-  --panel-bg: rgba(26, 26, 26, 0.3);
-  --panel-border: rgba(148, 163, 184, 0.35);
-  --text-primary: rgba(241, 245, 249, 0.95);
-  --text-secondary: rgba(203, 213, 225, 0.9);
-  --field-bg: rgba(30, 41, 59, 0.65);
-  --field-text: #e2e8f0;
-  --field-placeholder: rgba(203, 213, 225, 0.75);
-  --history-row-bg: rgba(30, 41, 59, 0.65);
-  --theme-background-image: url('../../assets/bg-dark.png');
-  --search-history-bg:  rgba(53, 42, 102, 0.1);
-  --current-weather-color: rgba(255, 255, 255, 1);
 }

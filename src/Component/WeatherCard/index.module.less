@@ -3,16 +3,16 @@
   width: 97%;
   border-radius: 24px;
   font-family: 'Noto Sans TC', sans-serif;
-  color: var(--text-primary, #2b2140);
+  color: var(--color-text-primary, #2b2140);
 }
 
 .weatherTitle {
   font-size: 16px;
-  color: var(--text-primary, #23183a);
+  color: var(--color-text-primary, #23183a);
 }
 
 .currentTemperature {
-  color: var(--current-weather-color, rgba(108, 64, 181, 1));
+  color: var(--color-temperature-primary, rgba(108, 64, 181, 1));
   font-size: 70px;
   font-weight: bold;
   line-height: 1;
@@ -22,7 +22,7 @@
   margin-top: 8px;
   font-size: 16px;
   font-weight: 400;
-  color: var(--text-secondary, rgba(102, 102, 102, 1));
+  color: var(--color-text-secondary, rgba(102, 102, 102, 1));
 }
 
 .weatherMeta {
@@ -31,7 +31,7 @@
   gap: 16px;
   margin-top: 12px;
   font-size: 16px;
-  color: var(--text-secondary, rgba(102, 102, 102, 1));
+  color: var(--color-text-secondary, rgba(102, 102, 102, 1));
   flex-wrap: wrap;
 }
 
@@ -42,12 +42,12 @@
 
 .weatherIcon {
   width: auto;
-  height: 25%;
+  height: 35%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  top: -8%;
+  top: -15%;
   right: 0;
 
 }
@@ -83,7 +83,8 @@
     font-size: 60px;
   }
   .weatherIcon {
-    height: 20%;
+    height: 25%;
+    top: -12%;
   }
   .rightContent {
     flex-direction: column;
