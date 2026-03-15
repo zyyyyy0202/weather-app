@@ -1,15 +1,15 @@
 import dayjs from "dayjs";
 import type { WeatherDataVO, WeatherResponse } from "../interface/WeatherInterface";
 
-const KEY = "d52b2cc7b060c07b73fb9177207b6be0";
-const WEATHER_HISTORY_KEY = "weatherHistory";
-const WEATHER_HISTORY_UPDATED_EVENT = "weather-history-updated";
+const KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
+const WEATHER_HISTORY_LOCAL_STORAGE_KEY = "weatherHistory";
 
 export const currentMapperWrapper = async (response: WeatherResponse) => {
   return {
-    id: `${response.id}-${new Date()}`,
+    id: `${response.id}-${Date.now()}`,
     temperature: response.main.temp,
-    location: `${response.name}, ${response.sys.country}`,
+    location: response.name,
+    countryCode: response.sys.country,
     lowestTemperature: response.main.temp_min,
     highestTemperature: response.main.temp_max,
     formattedTime: dayjs().format("YYYY-MM-DD HH:mm a"),
@@ -18,16 +18,19 @@ export const currentMapperWrapper = async (response: WeatherResponse) => {
   }
 }
 
-export const getCurrentWeather: (city: string, country: string) => Promise<WeatherDataVO> = async (city: string, country: string) => {
+export const getCurrentWeather = async (
+  city: string,
+  country: string
+): Promise<WeatherDataVO> => {
   let queryCity = '';
   if(city && country) {
     queryCity = `${city},${country}`;
   } else {
     queryCity = city || country;
   }
-
+  const encodedQueryCity = encodeURIComponent(queryCity);
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${queryCity}&units=metric&APPID=${KEY}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${encodedQueryCity}&units=metric&APPID=${KEY}`
   );
 
   const data = await response.json();
@@ -40,43 +43,67 @@ export const getCurrentWeather: (city: string, country: string) => Promise<Weath
 }
 
 /**
- * use locale storage to get weather history
- * @returns weather history array
+ * use local storage to get weather history
  */
-export const getWeatherHistory: () => WeatherDataVO[] = () => {
-  return JSON.parse(localStorage.getItem(WEATHER_HISTORY_KEY) || "[]");
-}
-
+export const getWeatherHistory = (): WeatherDataVO[] => {
+  try {
+    const weatherHistoryData = localStorage.getItem(WEATHER_HISTORY_LOCAL_STORAGE_KEY);
+    return weatherHistoryData ? JSON.parse(weatherHistoryData) : [];
+  } catch (error) {
+    console.error("Failed to read weather history:", error);
+    return [];
+  }
+};
 /**
  * use locale storage to add weather history
- * @param weather weather data
+ * for duplicate location, will replace old one and move to top
  */
 export const addWeatherHistory = (weather: WeatherDataVO) => {
-  const history = getWeatherHistory();
-  const nextHistory = [weather, ...history]
-  localStorage.setItem(WEATHER_HISTORY_KEY, JSON.stringify(nextHistory));
-  window.dispatchEvent(new Event(WEATHER_HISTORY_UPDATED_EVENT));
-  return {
-    success: true,
-    message: "Add weather history success",
-    id: weather.id,
+  try {
+    const history = getWeatherHistory();
+
+    const nextHistory = [
+      weather,
+      ...history.filter((item) => item.location !== weather.location),
+    ];
+
+    localStorage.setItem(WEATHER_HISTORY_LOCAL_STORAGE_KEY, JSON.stringify(nextHistory));
+
+    return {
+      success: true,
+      message: "Add weather history success",
+      id: weather.id,
+    };
+  } catch (error) {
+    console.error("Failed to add weather history:", error);
+
+    return {
+      success: false,
+      message: "Failed to add weather history",
+      id: weather.id,
+    };
   }
-}
+};
 
 /**
  * use locale storage to delete weather history
- * @param id weather history id
  */
 export const deleteWeatherHistory = (id: string) => {
-  const history = getWeatherHistory();
-  const newHistory = history.filter((item: WeatherDataVO) => item.id !== id);
-  localStorage.setItem(WEATHER_HISTORY_KEY, JSON.stringify(newHistory));
-  window.dispatchEvent(new Event(WEATHER_HISTORY_UPDATED_EVENT));
-  return {
-    success: true,
-    message: "Delete weather history success",
-    id: id,
+  try {
+    const history = getWeatherHistory();
+    const newHistory = history.filter((item: WeatherDataVO) => item.id !== id);
+    localStorage.setItem(WEATHER_HISTORY_LOCAL_STORAGE_KEY, JSON.stringify(newHistory));
+    return {
+      success: true,
+      message: "Delete weather history success",
+      id: id,
+    }
+  } catch (error) {
+    console.error("Failed to delete weather history:", error);
+    return {
+      success: false,
+      message: "Failed to delete weather history",
+      id: id,
+    } 
   }
 }
-
-export { WEATHER_HISTORY_UPDATED_EVENT };

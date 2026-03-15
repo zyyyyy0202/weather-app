@@ -5,6 +5,7 @@ import styles from "./index.module.less";
 export interface WeatherCardProps {
   temperature?: number;
   location?: string;
+  countryCode?: string;
   lowestTemperature?: number;
   highestTemperature?: number;
   formattedTime?: string;
@@ -13,9 +14,16 @@ export interface WeatherCardProps {
   title?: string;
 }
 
+enum WeatherType {
+  Cloud = 'cloud',
+  Sun = 'sun',
+}
+
+//Add countryCode to WeatherCard component props and display if available
 function WeatherCard({
   temperature,
   location,
+  countryCode,
   lowestTemperature,
   highestTemperature,
   formattedTime,
@@ -28,28 +36,28 @@ function WeatherCard({
    * Normalize weather data into display-friendly values,
    * so the UI can safely handle empty or undefined fields.
    */
-  const safeDisplayWeatherData = {
+  const displayWeatherData = {
     temperature: temperature != null ? `${temperature}°` : "--",
-    location: location || "--",
     temperatureRange:
       highestTemperature != null && lowestTemperature != null
         ? `H: ${highestTemperature}° L: ${lowestTemperature}°`
         : "H: --° L: --°",
+    humidity: humidity != null ? `${humidity}%` : "--",
+    formattedLocation: location ? `${location}, ${countryCode}` : "--",
     formattedTime: formattedTime || "--",
-    humidity: humidity != null ? `${humidity}%` : "--%",
     weatherType: weatherType || "--",
   };
-
-  const isCloudy = weatherType?.toLowerCase().includes('cloud');
+  
+  const isCloudy = weatherType?.includes(WeatherType.Cloud);
 
   return (
     <section className={styles.weatherCard} aria-label="Current weather">
-      <img
+      {weatherType && <img
         className={styles.weatherIcon}
         src={isCloudy ? CloudIcon : SunIcon}
         alt=""
         aria-hidden="true"
-      />
+      />}
 
       <div className={styles.header}>
         <h3 className={styles.weatherTitle}>{title}</h3>
@@ -58,25 +66,25 @@ function WeatherCard({
       <div className={styles.weatherTop}>
         <div className={styles.leftContent}>
           <div className={styles.currentTemperature}>
-            {safeDisplayWeatherData.temperature}
+            {displayWeatherData.temperature}
           </div>
 
           <div className={styles.temperatureRange}>
-            <span>{safeDisplayWeatherData.temperatureRange}</span>
+            <span>{displayWeatherData.temperatureRange}</span>
           </div>
         </div>
       </div>
 
       <div className={styles.weatherMeta}>
-        <div className={styles.location}>{safeDisplayWeatherData.location}</div>
+        <div className={styles.location}>{displayWeatherData.formattedLocation}</div>
 
         <div className={styles.rightContent}>
-          <div className={styles.weatherType}>{safeDisplayWeatherData.weatherType}</div>
+          <div className={styles.weatherType}>{displayWeatherData.weatherType}</div>
           <div className={styles.humidity}>
-            {`Humidity: ${safeDisplayWeatherData.humidity}`}
+            {`Humidity: ${displayWeatherData.humidity}`}
           </div>
           <div className={styles.formattedTime}>
-            {safeDisplayWeatherData.formattedTime}
+            {displayWeatherData.formattedTime}
           </div>
         </div>
       </div>

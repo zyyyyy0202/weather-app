@@ -1,17 +1,13 @@
-import { useState } from 'react';
-import { Button } from 'antd';
-import type { ChangeEvent, KeyboardEvent } from 'react';
-import styles from './index.module.less';
+import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import styles from "./index.module.less";
 
 interface SearchFormProps {
   loading?: boolean;
   onSearch: (city: string, country: string) => void;
 }
 
-function SearchForm({
-  loading = false,
-  onSearch,
-}: SearchFormProps) {
+function SearchForm({ loading = false, onSearch }: SearchFormProps) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
@@ -23,13 +19,11 @@ function SearchForm({
     setCountry(event.target.value);
   };
 
-  const handleSearch = () => {
-    onSearch(city, country);
-  }
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !loading) {
-      handleSearch();
+    if (!loading) {
+      onSearch(city, country);
     }
   };
 
@@ -39,10 +33,10 @@ function SearchForm({
   };
 
   return (
-    <div className={styles.searchBarWrapper}>
+    <form className={styles.searchBarWrapper} onSubmit={handleSubmit}>
       <div className={styles.searchForm}>
         <div className={styles.searchField}>
-          <label className={styles.searchLabel} htmlFor="city">
+          <label className={styles.searchLabel}>
             City
           </label>
           <input
@@ -52,13 +46,13 @@ function SearchForm({
             value={city}
             placeholder="Search city"
             onChange={handleCityChange}
-            onKeyDown={handleKeyDown}
             disabled={loading}
             autoFocus
           />
         </div>
+
         <div className={styles.searchField}>
-          <label className={styles.searchLabel} htmlFor="country">
+          <label className={styles.searchLabel}>
             Country
           </label>
           <input
@@ -68,31 +62,37 @@ function SearchForm({
             value={country}
             placeholder="Search country"
             onChange={handleCountryChange}
-            onKeyDown={handleKeyDown}
             disabled={loading}
           />
         </div>
       </div>
+
       <div className={styles.actionGroup}>
-        <Button
+        <button
+          type="submit"
           className={styles.searchButton}
-          onClick={handleSearch}
           disabled={loading}
           aria-label="Search"
           title="Search"
         >
-          {loading ? <span className={styles.buttonSpinner} /> : <span className={styles.searchIcon} aria-hidden="true" />}
-        </Button>
+          {loading ? (
+            <span className={styles.buttonSpinner} />
+          ) : (
+            <span className={styles.searchIcon} aria-hidden="true" />
+          )}
+        </button>
 
-        <Button
+        <button
           className={styles.clearButton}
           onClick={handleClear}
-          loading={loading}
+          disabled={loading}
+          aria-label="Clear"
+          title="Clear"
         >
           Clear
-        </Button>
+        </button>
       </div>
-    </div>
+    </form>
   );
 }
 

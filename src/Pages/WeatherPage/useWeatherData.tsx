@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import type { WeatherDataVO } from "../../interface/WeatherInterface";
 import {
   getCurrentWeather,
@@ -12,7 +12,7 @@ export const useWeatherData = () => {
   const [weatherData, setWeatherData] = useState<WeatherDataVO | null>(null);
   const [weatherHistoryList, setWeatherHistoryList] = useState<WeatherDataVO[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isHistoryInitialized, setIsHistoryInitialized] = useState(false);
 
   const fetchWeatherHistory = () => {
     const history = getWeatherHistory();
@@ -20,10 +20,14 @@ export const useWeatherData = () => {
     return history;
   };
 
-  const handleSearch = async (
+  /*
+   * Search for the weather data of the given city and country.
+   * example for init page this action will not save the history.
+   */
+  const handleSearchWeather = async (
     city: string,
     country: string,
-    skipSaveHistory?: boolean,
+    shouldSaveHistory: boolean = true,
   ) => {
     const trimmedCity = city.trim();
     const trimmedCountry = country.trim();
@@ -41,7 +45,7 @@ export const useWeatherData = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await getCurrentWeather(trimmedCity, trimmedCountry);
       setWeatherData(result);
-      if (!skipSaveHistory) {
+      if (shouldSaveHistory) {
         addWeatherHistory(result);
         fetchWeatherHistory();
       }
@@ -52,7 +56,7 @@ export const useWeatherData = () => {
     }
   };
 
-  const handleDeleteHistory = async (id: string) => {
+  const handleDeleteWeatherHistory = async (id: string) => {
     await deleteWeatherHistory(id);
     fetchWeatherHistory();
   };
@@ -63,16 +67,16 @@ export const useWeatherData = () => {
      * and performing a search for the latest location.
      * if there is no latest location, then perform a search for Johor Bahru, Malaysia.
      */
-    function init() {
-          const history = fetchWeatherHistory();
-    const latestLocation = history[0]?.location;
+    const init = async () => {
+      const history = fetchWeatherHistory();
+      const latestLocation = history[0]?.location; 
 
-    const [city = "Johor Bahru", country = "Malaysia"] =
-      latestLocation?.split(",") ?? [];
+      const [city = "Johor Bahru", country = "Malaysia"] =
+        latestLocation?.split(",") ?? [];
 
-    handleSearch(city, country, true);
-    setIsInitialized(true);
-    }
+      await handleSearchWeather(city, country, false);
+      setIsHistoryInitialized(true);
+    };
     init();
   }, []);
 
@@ -81,9 +85,9 @@ export const useWeatherData = () => {
     weatherData,
     error,
     weatherHistoryList,
-    handleSearch,
-    handleDeleteHistory,
-    isInitialized,
+    isHistoryInitialized,
+    handleSearchWeather,
+    handleDeleteWeatherHistory,
   };
 };
 

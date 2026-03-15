@@ -7,6 +7,7 @@ export interface WeatherDataVO {
   formattedTime: string;
   humidity: number;
   weatherType: string;
+  countryCode: string;
 }
 
 export interface WeatherResponse {

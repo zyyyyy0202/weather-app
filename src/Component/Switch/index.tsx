@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import styles from "./index.module.less";
 
 interface SwitchProps {
@@ -17,7 +18,9 @@ function Switch({ checked, onChange, disabled = false }: SwitchProps) {
   return (
     <button
       type="button"
-      className={`${styles.switch} ${checked ? styles.switchChecked : ""}`}
+      className={classNames(styles.switch, {
+        [styles.switchChecked]: checked,
+      })}
       role="switch"
       aria-checked={checked}
       aria-label={checked ? "Switch to light mode" : "Switch to dark mode"}
