@@ -52,7 +52,7 @@ export const useWeatherData = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteHistory = async (id: string) => {
     await deleteWeatherHistory(id);
     fetchWeatherHistory();
   };
@@ -82,7 +82,7 @@ export const useWeatherData = () => {
     error,
     weatherHistoryList,
     handleSearch,
-    handleDelete,
+    handleDeleteHistory,
     isInitialized,
   };
 };

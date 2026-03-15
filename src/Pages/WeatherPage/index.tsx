@@ -1,20 +1,19 @@
-import { useState } from "react";
-
 import SearchForm from "../../Component/SearchForm";
 import WeatherCard from "../../Component/WeatherCard";
 import SearchHistory from "../../Component/SearchHistory";
 import Switch from "../../Component/Switch";
 import useWeatherData from "./useWeatherData";
+import useTheme from "../../hooks/useTheme";
 
 import styles from "./index.module.less";
 
 function WeatherPage() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { isDarkMode, onChangeThemeMode } = useTheme();
   const {
     weatherData,
     error,
     handleSearch,
-    handleDelete,
+    handleDeleteHistory,
     loading,
     weatherHistoryList,
     isInitialized,
@@ -31,7 +30,7 @@ function WeatherPage() {
           <span className={styles.themeLabel}>
             {isDarkMode ? "Dark Mode" : "Light Mode"}
           </span>
-          <Switch checked={isDarkMode} onChange={setIsDarkMode} />
+          <Switch checked={isDarkMode} onChange={onChangeThemeMode} />
         </div>
         <SearchForm
           loading={loading}
@@ -40,9 +39,9 @@ function WeatherPage() {
         <div className={`${styles.errorMessage} ${error ? styles.active : ""}`}>{error}</div>
         <div className={styles.weatherInfoContainer}>
           <WeatherCard
-            title={`Today's Weather`}
+            title="Today's Weather"
             temperature={weatherData?.temperature}
-            location={weatherData?.location || ""}
+            location={weatherData?.location}
             lowestTemperature={weatherData?.lowestTemperature}
             highestTemperature={weatherData?.highestTemperature}
             formattedTime={weatherData?.formattedTime}
@@ -51,7 +50,7 @@ function WeatherPage() {
           />
           <SearchHistory
             weatherHistoryList={weatherHistoryList}
-            onDelete={handleDelete}
+            onDelete={handleDeleteHistory}
             onSearch={handleSearch}
             isInitialized={isInitialized}
           />
