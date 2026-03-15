@@ -6,6 +6,7 @@ import styles from "./index.module.less";
 interface SearchHistoryItemProps {
   id: string;
   location: string;
+  countryCode: string;
   formattedTime: string;
   onDelete: (id: string) => void | Promise<void>;
   onSearch: (city: string, country: string, skipSaveHistory?: boolean) => void | Promise<void>;
@@ -13,19 +14,16 @@ interface SearchHistoryItemProps {
 
 const SearchHistoryItem = ({
   location,
+  countryCode,
   formattedTime,
   onDelete,
   onSearch,
   id,
 }: SearchHistoryItemProps) => {
-  const [
-    city = '',
-    country = '',
-  ] = location.split(',');
   return (
     <li className={styles.searchHistoryItem}>
       <div className={styles.searchHistoryItemContent}>
-        <div className={styles.searchHistoryLocation}>{location}</div>
+        <div className={styles.searchHistoryLocation}>{location}, {countryCode}</div>
         <div className={styles.searchHistoryTime}>{formattedTime}</div>
       </div>
 
@@ -33,8 +31,8 @@ const SearchHistoryItem = ({
         <button
           type="button"
           className={styles.searchHistorySearchButton}
-          aria-label={`Search weather for ${location}`}
-          onClick={() => onSearch(city.trim(), country.trim(), true)}
+          aria-label={`Search weather for ${location}, ${countryCode}`}
+          onClick={() => onSearch(location.trim(), countryCode.trim(), true)}
         />
         <Popconfirm
           title="Delete this search history?"
@@ -65,7 +63,6 @@ export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch, isHistor
   if (!isHistoryInitialized) return null;
   
   const hasHistory = Array.isArray(weatherHistoryList) && weatherHistoryList.length > 0;
-
   return (
     <section
       className={styles.searchHistoryContainer}
@@ -82,6 +79,7 @@ export const SearchHistory = ({ weatherHistoryList, onDelete, onSearch, isHistor
               key={item.id}
               id={item.id}
               location={item.location}
+              countryCode={item.countryCode}
               formattedTime={item.formattedTime}
               onDelete={onDelete}
               onSearch={onSearch}

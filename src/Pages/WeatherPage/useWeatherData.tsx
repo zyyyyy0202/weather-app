@@ -7,6 +7,9 @@ import {
   deleteWeatherHistory,
 } from "../../services/weather";
 
+// Minimum loading duration in milliseconds, prevent loading status flicker
+const MIN_LOADING_DURATION = 300;
+
 export const useWeatherData = () => {
   const [loading, setLoading] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherDataVO | null>(null);
@@ -31,28 +34,39 @@ export const useWeatherData = () => {
   ) => {
     const trimmedCity = city.trim();
     const trimmedCountry = country.trim();
-
+    
     if (!trimmedCity && !trimmedCountry) {
       setError("Please enter a city or country.");
       return;
-
     }
 
     setLoading(true);
     setError(null);
+    const startTime = Date.now();
+    let result: WeatherDataVO | null = null;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      const result = await getCurrentWeather(trimmedCity, trimmedCountry);
-      setWeatherData(result);
-      if (shouldSaveHistory) {
+      result = await getCurrentWeather(trimmedCity, trimmedCountry);
+      if (shouldSaveHistory && result?.id) {
         addWeatherHistory(result);
-        fetchWeatherHistory();
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unknown error occurred.");
     } finally {
+      /*
+       * This is to ensure that the loading status is visible for at least MIN_LOADING_DURATION.
+       */
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = MIN_LOADING_DURATION - elapsedTime;
+
+      if (remainingTime > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remainingTime));
+      }
       setLoading(false);
+      if(result?.id) {
+        setWeatherData(result);
+        fetchWeatherHistory();
+      }
     }
   };
 
@@ -69,10 +83,8 @@ export const useWeatherData = () => {
      */
     const init = async () => {
       const history = fetchWeatherHistory();
-      const latestLocation = history[0]?.location; 
-
-      const [city = "Johor Bahru", country = "Malaysia"] =
-        latestLocation?.split(",") ?? [];
+      const city = history[0]?.location || "Johor Bahru";
+      const country = history[0]?.countryCode || "Malaysia";
 
       await handleSearchWeather(city, country, false);
       setIsHistoryInitialized(true);

@@ -15,8 +15,9 @@ export interface WeatherCardProps {
 }
 
 enum WeatherType {
-  Cloud = 'cloud',
-  Sun = 'sun',
+  Cloud = 'Clouds',
+  Sun = 'Clear',
+  Rain = 'Rain',
 }
 
 //Add countryCode to WeatherCard component props and display if available
@@ -79,13 +80,9 @@ function WeatherCard({
         <div className={styles.location}>{displayWeatherData.formattedLocation}</div>
 
         <div className={styles.rightContent}>
+          <div className={styles.formattedTime}>{displayWeatherData.formattedTime}</div>
+          <div className={styles.humidity}>{`Humidity: ${displayWeatherData.humidity}`}</div>
           <div className={styles.weatherType}>{displayWeatherData.weatherType}</div>
-          <div className={styles.humidity}>
-            {`Humidity: ${displayWeatherData.humidity}`}
-          </div>
-          <div className={styles.formattedTime}>
-            {displayWeatherData.formattedTime}
-          </div>
         </div>
       </div>
     </section>

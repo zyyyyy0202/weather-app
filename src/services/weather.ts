@@ -15,6 +15,7 @@ export const currentMapperWrapper = async (response: WeatherResponse) => {
     formattedTime: dayjs().format("YYYY-MM-DD HH:mm a"),
     humidity: response.main.humidity,
     weatherType: response.weather[0].main,
+    cod: response.cod,
   }
 }
 

@@ -1,21 +1,20 @@
 import { useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
 import styles from "./index.module.less";
 
 interface SearchFormProps {
-  loading?: boolean;
   onSearch: (city: string, country: string) => void;
+  loading?: boolean;
 }
 
 function SearchForm({ loading = false, onSearch }: SearchFormProps) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
-  const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
   };
 
-  const handleCountryChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCountry(event.target.value);
   };
 
@@ -83,6 +82,7 @@ function SearchForm({ loading = false, onSearch }: SearchFormProps) {
         </button>
 
         <button
+          type="button"
           className={styles.clearButton}
           onClick={handleClear}
           disabled={loading}
