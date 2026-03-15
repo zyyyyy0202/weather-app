@@ -1,14 +1,28 @@
 .weatherCard {
-  margin: 46px auto;
-  width: 97%;
+  margin: 46px 0;
+  width: 100%;
   border-radius: 24px;
   font-family: 'Noto Sans TC', sans-serif;
   color: var(--color-text-primary, #2b2140);
 }
 
+.header {
+  margin-bottom: 8px;
+}
+
 .weatherTitle {
   font-size: 16px;
   color: var(--color-text-primary, #23183a);
+}
+
+.weatherTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.leftContent {
+  min-width: 0;
 }
 
 .currentTemperature {
@@ -26,18 +40,47 @@
 }
 
 .weatherMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
   margin-top: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  align-items: center;
+  column-gap: 16px;
   font-size: 16px;
   color: var(--color-text-secondary, rgba(102, 102, 102, 1));
-  flex-wrap: wrap;
 }
 
 .location {
   font-weight: 700;
-  margin-top: 10px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rightContent {
+  grid-column: 2 / 5;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  align-items: center;
+  column-gap: 16px;
+  min-width: 0;
+}
+
+.rightContent > div {
+  min-width: 0;
+}
+
+.weatherType,
+.humidity {
+  white-space: nowrap;
+}
+
+.formattedTime {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
 }
 
 .weatherIcon {
@@ -49,46 +92,45 @@
   position: absolute;
   top: -15%;
   right: 0;
-
 }
 
-.weatherBody {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.rightContent {
-  flex: 1;
-  min-width: 0;
-  max-width: 100%;
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  justify-content: space-between;
-}
-
-.formattedTime {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.otherMeta {
-  flex: 0 0 auto;
-}
+/* tablet / mobile */
 @media screen and (max-width: 768px) {
   .currentTemperature {
     font-size: 60px;
   }
+
   .weatherIcon {
-    height: 25%;
-    top: -12%;
+    height: 30%;
+    top: -14%;
   }
+
+  .weatherMeta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 16px;
+  }
+
+  .location {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
   .rightContent {
+    grid-column: auto;
+    display: flex;
     flex-direction: column;
-    font: 14px;
+    align-items: flex-end;
+    gap: 6px;
+    text-align: right;
+  }
+
+  .formattedTime,
+  .weatherType,
+  .humidity {
+    white-space: nowrap;
   }
 }
 
@@ -96,9 +138,12 @@
   .currentTemperature {
     font-size: 50px;
   }
-
   .rightContent {
-    font: 14px;
+    font-size: 14px;
+  }
+  .weatherIcon {
+    height: 24%;
+    top: -13%;
   }
 }
 
@@ -107,8 +152,16 @@
     font-size: 40px;
   }
 
+  .weatherIcon {
+    height: 23%;
+    top: -12%;
+  }
+
   .rightContent {
-    flex-direction: column;
-    font: 14px;
+    font-size: 14px;
+  }
+
+  .location {
+    font-size: 14px;
   }
 }

@@ -26,7 +26,7 @@ const SearchHistoryItem = ({
   return (
     <li className={styles.searchHistoryItem}>
       <div className={styles.searchHistoryItemContent}>
-        <span className={styles.searchHistoryLocation}>{location}</span>
+        <div className={styles.searchHistoryLocation}>{location}</div>
 
         <time className={styles.searchHistoryTime} dateTime={dateTime}>
           {formattedTime}

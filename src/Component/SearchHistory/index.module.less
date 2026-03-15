@@ -39,6 +39,7 @@
   align-items: center;
   padding: 0 15px;
   box-sizing: border-box;
+  gap: 10px;
 }
 
 .searchHistoryLocation {
@@ -55,6 +56,8 @@
   display: flex;
   flex: 1;
   justify-content: space-between;
+  align-items: center;
+  min-width: 0;
 }
 
 .searchHistoryOperation {
@@ -113,11 +116,13 @@
 
   .searchHistoryItemContent {
     flex-direction: column;
+    align-items: flex-start
   }
 
   .searchHistoryLocation {
     font-size: 15px;
-    min-width: 0;
+    flex: 1;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -126,12 +131,6 @@
 
   .searchHistoryItem {
     padding: 0 11px;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .searchHistoryLocation {
-    max-width: 130px;
   }
 }
 

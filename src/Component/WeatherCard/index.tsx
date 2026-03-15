@@ -44,37 +44,43 @@ function WeatherCard({
 
   return (
     <section className={styles.weatherCard} aria-label="Current weather">
-  <img
-    className={styles.weatherIcon}
-    src={isCloudy ? CloudIcon : SunIcon}
-    alt=""
-    aria-hidden="true"
-  />
+      <img
+        className={styles.weatherIcon}
+        src={isCloudy ? CloudIcon : SunIcon}
+        alt=""
+        aria-hidden="true"
+      />
 
-  <div className={styles.header}>
-    <h3 className={styles.weatherTitle}>{title}</h3>
-  </div>
-
-  <div className={styles.weatherBody}>
-    <div className={styles.leftContent}>
-      <div className={styles.currentTemperature}>
-        {safeDisplayWeatherData.temperature}
+      <div className={styles.header}>
+        <h3 className={styles.weatherTitle}>{title}</h3>
       </div>
 
-      <div className={styles.temperatureRange}>
-        <span>{safeDisplayWeatherData.temperatureRange}</span>
+      <div className={styles.weatherTop}>
+        <div className={styles.leftContent}>
+          <div className={styles.currentTemperature}>
+            {safeDisplayWeatherData.temperature}
+          </div>
+
+          <div className={styles.temperatureRange}>
+            <span>{safeDisplayWeatherData.temperatureRange}</span>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.location}>{safeDisplayWeatherData.location}</div>
-    </div>
+      <div className={styles.weatherMeta}>
+        <div className={styles.location}>{safeDisplayWeatherData.location}</div>
 
-    <div className={styles.rightContent}>
-      <div>{safeDisplayWeatherData.weatherType}</div>
-      <div>{`Humidity: ${safeDisplayWeatherData.humidity}`}</div>
-      <div className={styles.formattedTime}>{safeDisplayWeatherData.formattedTime}</div>
-    </div>
-  </div>
-</section>
+        <div className={styles.rightContent}>
+          <div className={styles.weatherType}>{safeDisplayWeatherData.weatherType}</div>
+          <div className={styles.humidity}>
+            {`Humidity: ${safeDisplayWeatherData.humidity}`}
+          </div>
+          <div className={styles.formattedTime}>
+            {safeDisplayWeatherData.formattedTime}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
